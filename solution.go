@@ -10,29 +10,24 @@ import "math"
 // CalcSquare(10.0, SidesSquare)
 // CalcSquare(10.0, SidesCircle)
 
-func CalcSquare(sideLen float64, sidesNum ...float64) float64 {
-	if len(sidesNum) == 0 {
+const (
+	SidesTriangle sides = 3
+	SidesSquare   sides = 4
+	SidesCircle   sides = 0
+)
+
+type sides int
+
+func CalcSquare(sideLen float64, sidesNum sides) float64 {
+	if sidesNum == 0 {
 		return math.Pi * sideLen * sideLen
 	}
-	if len(sidesNum) == 1 {
-		return sideLen * sidesNum[0]
+	if sidesNum == 4 {
+		return sideLen * sideLen
 	}
-	if len(sidesNum) == 2 {
-		b := sidesNum[0]
-		c := sidesNum[1]
-		p := (sideLen + b + c) / 2
-		return math.Sqrt(p * (p - sideLen) * (p - b) * (p - c))
+	if sidesNum == 3 {
+		p := (sideLen * 3) / 2
+		return math.Sqrt(p * (p - sideLen) * (p - sideLen) * (p - sideLen))
 	}
-	if len(sidesNum) == 3 {
-		b := sidesNum[0]
-		c := sidesNum[1]
-		d := sidesNum[2]
-		p := (sideLen + b + c + d) / 2
-		return math.Sqrt((p - d) * (p - sideLen) * (p - b) * (p - c))
-	}
-	p := sideLen
-	for _, d := range sidesNum {
-		p *= d
-	}
-	return p
+	return 0
 }
